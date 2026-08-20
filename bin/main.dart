@@ -1,11 +1,12 @@
-import 'package:dotenv/dotenv.dart';
+import 'package:cocolaus_bot/shared/database/app_database.dart';
+import 'package:get_it/get_it.dart';
 
 void main() {
-  var env = DotEnv(includePlatformEnvironment: true);
+  final database = AppDatabase.create();
 
-  env.load(['assets/.env']);
+  final getIt = GetIt.instance;
 
-  final token = env['TOKEN_BOT_DISCORD'];
+  getIt.registerSingleton<AppDatabase>(database);
 
-  print(token);
+
 }

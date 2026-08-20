@@ -3,9 +3,9 @@ import 'package:get_it/get_it.dart';
 
 class UsuarioDiscordModule {
 
-  static void inject(GetIt getIt) {
+  static void register(GetIt getIt) {
     
-    getIt.registerSingleton<UsuarioDiscordRepository>(UsuarioDiscordRepository(_db, _table));
+    getIt.registerSingleton<UsuarioDiscordRepository>(UsuarioDiscordRepository());
     
   }
 }

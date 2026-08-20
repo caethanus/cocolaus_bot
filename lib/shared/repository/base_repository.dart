@@ -4,14 +4,13 @@ import 'package:collection/collection.dart';
 import 'package:drift/drift.dart';
 
 abstract class BaseRepository<E extends BaseEntity, D extends DataClass, U extends UpdateCompanion<D>> implements IBaseRepository<E> {
-  final GeneratedDatabase _db;
-  final TableInfo<Table, D> _table;
+  GeneratedDatabase get _db;
+
+  TableInfo<Table, D> get _table;
 
   String get tableName => _table.actualTableName;
 
   Future<List<D>> get rows => _db.select(_table).get();
-
-  BaseRepository(this._db, this._table);
 
   E fromRow(D row);
 

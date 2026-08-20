@@ -1,5 +1,9 @@
+
+import 'dart:io';
+
 import 'package:cocolaus_bot/modules/usuario_discord/table/usuario_discord/usuario_discord_table.dart';
 import 'package:drift/drift.dart';
+import 'package:drift/native.dart';
 
 part 'app_database.g.dart';
 
@@ -9,6 +13,14 @@ class AppDatabase extends _$AppDatabase {
 
   @override
   int get schemaVersion => 1;
+
+  static AppDatabase create() {
+    final file = File('data/cocolaus.db');
+
+    return AppDatabase(
+      NativeDatabase.createInBackground(file),
+    );
+  }
 
 // Example migration
 // @override
