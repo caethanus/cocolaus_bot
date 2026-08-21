@@ -1,16 +1,19 @@
+import 'dart:io';
+
 import 'package:nyxx/nyxx.dart';
 
-void main() async {
-  final client = await Nyxx.connectGateway('<TOKEN>', GatewayIntents.allUnprivileged);
+Future<void> main() async {
+  final token = Platform.environment['DISCORD_TOKEN'];
+  if (token == null) {
+    throw StateError('DISCORD_TOKEN não encontrado nas variáveis de ambiente');
+  }
 
-  final botUser = await client.users.fetchCurrentUser();
+  final client = await Nyxx.connectGateway(
+    token,
+    GatewayIntents.allUnprivileged | GatewayIntents.messageContent,
+    options: GatewayClientOptions(plugins: [logging, cliIntegration]),
+  );
 
-  client.onMessageCreate.listen((event) async {
-    if (event.mentions.contains(botUser)) {
-      await event.message.channel.sendMessage(MessageBuilder(
-        content: 'You mentioned me!',
-        referencedMessage: MessageReferenceBuilder.reply(messageId: event.message.id),
-      ));
-    }
-  });
+  final botUser = await client.user.get();
+  print('Conectado como ${botUser.username}');
 }
