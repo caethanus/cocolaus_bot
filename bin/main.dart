@@ -1,4 +1,4 @@
-import 'package:cocolaus_bot/hub/command_hub/command_hub.dart';
+import 'package:cocolaus_bot/shared/hub/command_hub/command_hub.dart';
 import 'package:dotenv/dotenv.dart';
 import 'package:nyxx/nyxx.dart';
 import 'package:nyxx_commands/nyxx_commands.dart';
