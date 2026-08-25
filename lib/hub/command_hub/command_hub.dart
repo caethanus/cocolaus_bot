@@ -4,7 +4,7 @@ import 'package:nyxx_commands/nyxx_commands.dart';
 class CommandHub {
   final CommandsPlugin plugin;
 
-  List<ChatCommand> get commands => [presentation, registerUser];
+  List<ChatCommand> get commands => [presentation, registerUser, takeIt, coffeTime];
 
   CommandHub(this.plugin);
 
@@ -27,4 +27,17 @@ class CommandHub {
 
     await context.respond(MessageBuilder(content: '${'$username $idDiscord'} Cadastrado com sucesso!'));
   });
+
+  ChatCommand takeIt = ChatCommand('tome', 'Mostra uma mensagem especial para um determinado usuario, ou para todos.', (ChatContext context, [@Description('Quem') String? user]) async {
+    String mensagem;
+    if (user != null) {
+      mensagem = '${user} pois tomeeeee';
+    } else {
+      mensagem = 'pois tomeeeee';
+    }
+
+    await context.respond(MessageBuilder(content: mensagem));
+  });
+
+  ChatCommand coffeTime = ChatCommand('coffe-time', 'Chama todos para tomarem café.', (ChatContext context) async => await context.respond(MessageBuilder(content: '@here coffe time!!!')));
 }
