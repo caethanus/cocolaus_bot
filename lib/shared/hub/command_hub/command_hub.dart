@@ -7,7 +7,7 @@ import 'package:nyxx_commands/nyxx_commands.dart';
 class CommandHub {
   final CommandsPlugin plugin;
 
-  List<ChatCommand> get commands => [presentation, registerUser, takeIt, coffeTime, tomeGif];
+  List<ChatCommand> get commands => [presentation, registerUser, takeIt, coffeTime];
 
   CommandHub(this.plugin);
 
@@ -31,16 +31,23 @@ class CommandHub {
     await context.respond(MessageBuilder(content: '${'$username $idDiscord'} Cadastrado com sucesso!'));
   });
 
-  ChatCommand takeIt = ChatCommand('tome', 'Mostra uma mensagem especial para um determinado usuario, ou para todos.', (ChatContext context, [@Description('Quem') String? user]) async {
-    String mensagem;
-    if (user != null) {
-      mensagem = '${user} pois tomeeeee';
-    } else {
-      mensagem = 'pois tomeeeee';
-    }
+  ChatCommand takeIt = ChatCommand('tome', 'Pois tome um gif maroto', id('tome_gif_id', (ChatContext context) async {
 
-    await context.respond(MessageBuilder(content: mensagem));
-  });
+    final gifTomePath = File('assets/pois-tome.gif');
+
+    if (await gifTomePath.exists()) {
+
+      final bytes = await gifTomePath.readAsBytes();
+      final gifAnexo = AttachmentBuilder(data: bytes, fileName: 'pois-tome.gif');
+
+      await context.respond(MessageBuilder(content: 'POIS TOMEE', attachments: [gifAnexo]), level: ResponseLevel.public);
+
+    } else {
+      print('Erro ao carregar o gif: Arquivo ausente.');
+      await context.respond(MessageBuilder(content: 'Não consegui encontrar o gif no meu sistema. 😢'), level: ResponseLevel.public);
+    }
+  }),
+  );
 
   ChatCommand coffeTime = ChatCommand('coffe-time', 'Chama todos para tomarem café.', (ChatContext context) async {
 
@@ -51,22 +58,4 @@ class CommandHub {
     }
     await context.respond(MessageBuilder(content: '@here coffe time!!!'));
   });
-
-  ChatCommand tomeGif = ChatCommand('tome-gif', 'Pois tome um gif maroto', id('tome_gif_id', (ChatContext context) async {
-
-      final gifTomePath = File('assets/pois-tome.gif');
-
-      if (await gifTomePath.exists()) {
-
-        final bytes = await gifTomePath.readAsBytes();
-        final gifAnexo = AttachmentBuilder(data: bytes, fileName: 'pois-tome.gif');
-
-        await context.respond(MessageBuilder(content: 'POIS TOMEE', attachments: [gifAnexo]), level: ResponseLevel.public);
-
-      } else {
-        print('Erro ao carregar o gif: Arquivo ausente.');
-        await context.respond(MessageBuilder(content: 'Não consegui encontrar o gif no meu sistema. 😢'), level: ResponseLevel.public);
-      }
-    }),
-  );
 }
