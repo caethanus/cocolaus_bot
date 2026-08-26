@@ -21,7 +21,7 @@ class PessoaRepository extends BaseRepository<PessoaEntity> implements IPessoaRe
   }
 
   @override
-  PessoaEntity fromMap(Map<String, dynamic> map) => PessoaEntity(base: map['base'], nome: map['nome'], idDiscord: map['idDiscord']);
+  PessoaEntity fromMap(Map<String, dynamic> map) => PessoaEntity(base: baseFromMap(map), nome: map['nome'], idDiscord: map['idDiscord']);
 
   @override
   Map<String, dynamic> toMap(PessoaEntity entity) => {idColumnName: entity.base.id, BaseRepository.criadoEm: entity.base.criadoEm, BaseRepository.deletadoEm: entity.base.deletadoEm, 'nome': entity.nome, 'idDiscord': entity.idDiscord};
