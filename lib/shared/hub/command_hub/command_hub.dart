@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cocolaus_bot/shared/enums/enum_canais_exclusivos.dart';
 import 'package:nyxx/nyxx.dart';
 import 'package:nyxx_commands/nyxx_commands.dart';
@@ -5,7 +7,7 @@ import 'package:nyxx_commands/nyxx_commands.dart';
 class CommandHub {
   final CommandsPlugin plugin;
 
-  List<ChatCommand> get commands => [presentation, registerUser, takeIt, coffeTime];
+  List<ChatCommand> get commands => [presentation, registerUser, takeIt, coffeTime, tomeGif];
 
   CommandHub(this.plugin);
 
@@ -49,4 +51,22 @@ class CommandHub {
     }
     await context.respond(MessageBuilder(content: '@here coffe time!!!'));
   });
+
+  ChatCommand tomeGif = ChatCommand('tome-gif', 'Pois tome um gif maroto', id('tome_gif_id', (ChatContext context) async {
+
+      final gifTomePath = File('assets/pois-tome.gif');
+
+      if (await gifTomePath.exists()) {
+
+        final bytes = await gifTomePath.readAsBytes();
+        final gifAnexo = AttachmentBuilder(data: bytes, fileName: 'pois-tome.gif');
+
+        await context.respond(MessageBuilder(content: 'POIS TOMEE', attachments: [gifAnexo]), level: ResponseLevel.public);
+
+      } else {
+        print('Erro ao carregar o gif: Arquivo ausente.');
+        await context.respond(MessageBuilder(content: 'Não consegui encontrar o gif no meu sistema. 😢'), level: ResponseLevel.public);
+      }
+    }),
+  );
 }
