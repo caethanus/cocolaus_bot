@@ -23,6 +23,8 @@ class PessoaCommand {
     final pessoaService = GetIt.instance<IPessoaService>();
 
     await pessoaService.delete(discordId.toString());
+
+    await context.respond(MessageBuilder(content: 'Usuário $discordUser removido com sucesso'));
   },);
 
   static ChatCommand takeIt = ChatCommand('tome', 'Mostra uma mensagem especial para um determinado usuario, ou para todos.', (ChatContext context, [@Description('Quem') String? user]) async {
