@@ -17,8 +17,6 @@ abstract class BaseRepository<E extends IBaseEntity> implements IBaseRepository<
 
   E fromMap(Map<String, dynamic> map);
 
-  void create();
-
   BaseEntity baseFromMap(Map<String, dynamic> map) => BaseEntity(id: map[idColumnName], criadoEm: map[criadoEm] != null ? DateTime.parse(map[criadoEm]) : null, deletadoEm: map[deletadoEm] != null ? DateTime.parse(map[deletadoEm]) : null);
 
   @override

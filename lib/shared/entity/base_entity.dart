@@ -1,3 +1,5 @@
+import 'package:uuid/uuid.dart';
+
 class BaseEntity {
   String id;
 
@@ -5,5 +7,7 @@ class BaseEntity {
 
   DateTime? deletadoEm;
 
-  BaseEntity({required this.id, required this.criadoEm, required this.deletadoEm});
+  BaseEntity({required this.id, this.criadoEm, this.deletadoEm});
+
+  factory BaseEntity.novo() => BaseEntity(id: const Uuid().v4(), criadoEm: null, deletadoEm: null);
 }

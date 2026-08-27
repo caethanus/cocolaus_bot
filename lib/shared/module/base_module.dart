@@ -10,4 +10,6 @@ abstract class BaseModule implements IBaseModule {
   void registerDatabase(GetIt getIt) {
     getIt.registerLazySingleton<BotDatabase>(() => BotDatabase());
   }
+
+  void createTable();
 }
