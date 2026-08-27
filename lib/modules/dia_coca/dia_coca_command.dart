@@ -10,6 +10,7 @@ class DiaCocaCommand {
     final teste = await diaCocaService.get();
     String message = '';
 
+    //todo: Isso vai ser substituído pelos dados calculados pelo CronJob, só tem que aguardar implementação
     teste.isNotEmpty ? message = teste.first.statusDiaCoca.description : message = 'Sem registros.';
 
     await context.respond(MessageBuilder(content: message));
