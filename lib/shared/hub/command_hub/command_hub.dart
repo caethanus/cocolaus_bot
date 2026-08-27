@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cocolaus_bot/shared/enums/enum_canais_exclusivos.dart';
 import 'package:cocolaus_bot/shared/module/base_module.dart';
 import 'package:cocolaus_bot/shared/module/base_module_interface.dart';
