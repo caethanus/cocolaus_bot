@@ -11,6 +11,11 @@ dependencies:
   nyxx: ^6.9.1
   dotenv: ^4.2.0
   nyxx_commands: ^6.1.0
+  sqlite3: ^3.5.2
+  synchronized: ^3.4.0
+  path_provider: ^2.1.5
+  path: ^1.9.1
+  get_it: ^9.2.1
 
 dev_dependencies:
   lints: ^6.0.0

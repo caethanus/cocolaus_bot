@@ -1,21 +1,12 @@
-import 'package:cocolaus_bot/shared/hub/command_hub/command_hub.dart';
-import 'package:dotenv/dotenv.dart';
-import 'package:nyxx/nyxx.dart';
-import 'package:nyxx_commands/nyxx_commands.dart';
+import 'package:cocolaus_bot/config/bot/bot_config.dart';
+import 'package:cocolaus_bot/modules/pessoa/module/pessoa_module.dart';
+import 'package:cocolaus_bot/shared/module/base_module.dart';
+import 'package:get_it/get_it.dart';
 
 Future<void> main() async {
-  var env = DotEnv(includePlatformEnvironment: true)..load();
+  final getIt = GetIt.instance;
 
-  final token = env['TOKEN_BOT_DISCORD'];
-  if (token == null) {
-    throw StateError('DISCORD_TOKEN não encontrado nas variáveis de ambiente');
-  }
+  List<BaseModule> modules = [PessoaModule(getIt)];
 
-  final commands = CommandsPlugin(prefix: mentionOr((_) => '!'));
-  CommandHub(commands).registerAll();
-
-  final client = await Nyxx.connectGateway(token, GatewayIntents.allUnprivileged | GatewayIntents.messageContent, options: GatewayClientOptions(plugins: [logging, cliIntegration, commands]));
-
-  final botUser = await client.user.get();
-  print('Conectado como ${botUser.username}');
+  await BotConfig(modules).init();
 }
