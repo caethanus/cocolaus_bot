@@ -15,7 +15,7 @@ class PessoaModule extends BaseModule implements IPessoaModule {
   PessoaModule(this.getIt);
 
   @override
-  List<ChatCommand> get commands => [PessoaCommand.registerUser, PessoaCommand.takeIt];
+  List<ChatCommand> get commands => [PessoaCommand.registerUser, PessoaCommand.takeIt, PessoaCommand.unregisterUser];
 
   @override
   void registerModule() {

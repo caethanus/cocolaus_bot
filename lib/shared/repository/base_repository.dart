@@ -31,4 +31,11 @@ abstract class BaseRepository<E extends IBaseEntity> implements IBaseRepository<
     VALUES ($placeholders)
     ''', values.values.toList());
   }
+
+  @override
+  Future<void> delete(String id) async {
+    database.connection.execute('''
+    DELETE FROM $tableName WHERE id_discord = $id
+    ''');
+  }
 }

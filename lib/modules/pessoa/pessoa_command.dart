@@ -16,6 +16,15 @@ class PessoaCommand {
     await context.respond(MessageBuilder(content: '${'$username $idDiscord'} Cadastrado com sucesso!'));
   });
 
+  static ChatCommand unregisterUser = ChatCommand('remover', 'Remove algum usuário da lista de coca. OBS: Será necessário cadastrar novamente', (ChatContext context, @Description('Usuário para deletar') User? discordUser) async {
+    final discordId = discordUser?.id;
+    if(discordId == null) throw StateError('Erro ao deletar, confira se o usuário está cadastrado e tente novamente.');
+
+    final pessoaService = GetIt.instance<IPessoaService>();
+
+    await pessoaService.delete(discordId.toString());
+  },);
+
   static ChatCommand takeIt = ChatCommand('tome', 'Mostra uma mensagem especial para um determinado usuario, ou para todos.', (ChatContext context, [@Description('Quem') String? user]) async {
     String mensagem;
 
