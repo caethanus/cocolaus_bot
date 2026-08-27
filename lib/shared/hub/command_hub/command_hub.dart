@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cocolaus_bot/shared/enums/enum_canais_exclusivos.dart';
 import 'package:cocolaus_bot/shared/module/base_module.dart';
 import 'package:cocolaus_bot/shared/module/base_module_interface.dart';
@@ -26,16 +28,31 @@ class CommandHub {
     await context.respond(MessageBuilder(content: 'Salve tropa!'));
   });
 
-  ChatCommand takeIt = ChatCommand('tome', 'Mostra uma mensagem especial para um determinado usuario, ou para todos.', (ChatContext context, [@Description('Quem') String? user]) async {
-    String mensagem;
-    if (user != null) {
-      mensagem = '$user pois tomeeeee';
-    } else {
-      mensagem = 'pois tomeeeee';
-    }
+  ChatCommand registerUser = ChatCommand('registrar', 'Cadastra no banco do bot um dos guys para trazer a coquinha da semana.', (ChatContext context, @Description('Nome do usuário') String username, [@Description('Usuário cadastrado') User? discordUser]) async {
+    final idDiscord = discordUser?.id.toString() ?? context.user.id.toString();
 
-    await context.respond(MessageBuilder(content: mensagem));
+    //TODO Caetano: aqui vai ter que ser implemntado o método correspondente para cadastrar no banco do bot
+
+    await context.respond(MessageBuilder(content: '${'$username $idDiscord'} Cadastrado com sucesso!'));
   });
+
+  ChatCommand takeIt = ChatCommand('tome', 'Pois tome um gif maroto', id('tome_gif_id', (ChatContext context) async {
+
+    final gifTomePath = File('assets/pois-tome.gif');
+
+    if (await gifTomePath.exists()) {
+
+      final bytes = await gifTomePath.readAsBytes();
+      final gifAnexo = AttachmentBuilder(data: bytes, fileName: 'pois-tome.gif');
+
+      await context.respond(MessageBuilder(content: 'POIS TOMEE', attachments: [gifAnexo]), level: ResponseLevel.public);
+
+    } else {
+      print('Erro ao carregar o gif: Arquivo ausente.');
+      await context.respond(MessageBuilder(content: 'Não consegui encontrar o gif no meu sistema. 😢'), level: ResponseLevel.public);
+    }
+  }),
+  );
 
   ChatCommand coffeTime = ChatCommand('coffe-time', 'Chama todos para tomarem café.', (ChatContext context) async {
     if (context.channel.id.toString() != EnumCanaisExclusivos.coffe.id) {
