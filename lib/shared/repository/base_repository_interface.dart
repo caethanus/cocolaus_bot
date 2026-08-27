@@ -5,5 +5,7 @@ abstract class IBaseRepository<E extends IBaseEntity> {
 
   Future<void> delete(String id);
 
+  Future<List<E>> get();
+
   void create();
 }
