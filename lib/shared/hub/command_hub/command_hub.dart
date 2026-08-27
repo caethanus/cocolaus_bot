@@ -1,18 +1,23 @@
 import 'package:cocolaus_bot/shared/enums/enum_canais_exclusivos.dart';
+import 'package:cocolaus_bot/shared/module/base_module.dart';
+import 'package:cocolaus_bot/shared/module/base_module_interface.dart';
 import 'package:nyxx/nyxx.dart';
 import 'package:nyxx_commands/nyxx_commands.dart';
 
 class CommandHub {
   final CommandsPlugin plugin;
 
-  List<ChatCommand> get commands => [presentation, takeIt, coffeTime];
+  final List<BaseModule> modules;
 
-  CommandHub(this.plugin);
+  CommandHub(this.plugin, this.modules);
 
   void registerAll() {
-    for (var command in commands) {
-      plugin.addCommand(command);
-      print('${command.name} registrado com sucesso!');
+    for (var module in modules) {
+      module.registerModule();
+
+      for (var command in module.commands) {
+        plugin.addCommand(command);
+      }
     }
   }
 
@@ -33,7 +38,6 @@ class CommandHub {
   });
 
   ChatCommand coffeTime = ChatCommand('coffe-time', 'Chama todos para tomarem café.', (ChatContext context) async {
-
     if (context.channel.id.toString() != EnumCanaisExclusivos.coffe.id) {
       await context.respond(MessageBuilder(content: 'Esse comando só pode ser usado no canal #coffe-time'));
 

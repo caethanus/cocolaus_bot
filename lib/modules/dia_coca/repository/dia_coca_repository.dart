@@ -1,15 +1,22 @@
 import 'package:cocolaus_bot/modules/dia_coca/entity/dia_coca.dart';
 import 'package:cocolaus_bot/modules/dia_coca/repository/dia_coca_repository_interface.dart';
+import 'package:cocolaus_bot/shared/database/bot_database.dart';
 import 'package:cocolaus_bot/shared/repository/base_repository.dart';
-import 'package:sqflite/sqflite.dart';
 
 class DiaCocaRepository extends BaseRepository<DiaCocaEntity> implements IDiaCocaRepository {
+  final BotDatabase botDatabase;
+
+  DiaCocaRepository(this.botDatabase);
+
   @override
   String get tableName => 'dias_coca';
 
   @override
-  void create(Batch batch) {
-    batch.execute('''
+  BotDatabase get database => throw UnimplementedError();
+
+  @override
+  void create() {
+    database.connection.execute('''
     CREATE TABLE IF NOT EXISTS $tableName (
     $idColumnName TEXT PRIMARY KEY,
     ${BaseRepository.criadoEm} TEXT,
@@ -25,12 +32,5 @@ class DiaCocaRepository extends BaseRepository<DiaCocaEntity> implements IDiaCoc
   DiaCocaEntity fromMap(Map<String, dynamic> map) => DiaCocaEntity(base: baseFromMap(map), idPessoaSemana: map['idPessoaSemana'], data: map['data'], statusDiaCoca: map['statusDiaCoca']);
 
   @override
-  Map<String, dynamic> toMap(DiaCocaEntity entity) => {
-    idColumnName: entity.base.id,
-    BaseRepository.criadoEm: entity.base.criadoEm,
-    BaseRepository.deletadoEm: entity.base.deletadoEm,
-    'idPessoaSemana': entity.idPessoaSemana,
-    'data': entity.data,
-    'statusDiaCoca': entity.statusDiaCoca
-  };
+  Map<String, dynamic> toMap(DiaCocaEntity entity) => {idColumnName: entity.base.id, BaseRepository.criadoEm: entity.base.criadoEm, BaseRepository.deletadoEm: entity.base.deletadoEm, 'idPessoaSemana': entity.idPessoaSemana, 'data': entity.data, 'statusDiaCoca': entity.statusDiaCoca};
 }

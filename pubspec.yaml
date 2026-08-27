@@ -13,7 +13,6 @@ dependencies:
   nyxx_commands: ^6.1.0
   sqlite3: ^3.5.2
   synchronized: ^3.4.0
-  sqflite: ^2.4.2
   path_provider: ^2.1.5
   path: ^1.9.1
   get_it: ^9.2.1
