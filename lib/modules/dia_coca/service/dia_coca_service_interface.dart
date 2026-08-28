@@ -4,4 +4,6 @@ import 'package:nyxx/nyxx.dart';
 
 abstract class IDiaCocaService extends IBaseService<DiaCocaEntity> {
   Future<void> avisarTrazerCoca({required NyxxGateway client});
+
+  Future<String> getPessoaByData(String data);
 }

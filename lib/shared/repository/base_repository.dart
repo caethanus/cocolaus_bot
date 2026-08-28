@@ -21,14 +21,14 @@ abstract class BaseRepository<E extends IBaseEntity> implements IBaseRepository<
 
   @override
   Future<void> save(E entity) async {
-    final database = BotDatabase();
+    final database = BotDatabase().connection;
 
     final values = toMap(entity);
 
     final columns = values.keys.join(', ');
     final placeholders = List.filled(values.length, '?').join(', ');
 
-    database.connection.execute('''
+    database.execute('''
     INSERT INTO $tableName ($columns)
     VALUES ($placeholders)
     ''', values.values.toList());
@@ -36,18 +36,18 @@ abstract class BaseRepository<E extends IBaseEntity> implements IBaseRepository<
 
   @override
   Future<void> delete(String id) async {
-    final database = BotDatabase();
+    final database = BotDatabase().connection;
 
-    database.connection.execute('''
+    database.execute('''
     DELETE FROM $tableName WHERE id_discord = $id
     ''');
   }
 
   @override
   Future<List<E>> get() async {
-    final database = BotDatabase();
+    final database = BotDatabase().connection;
 
-    final select = database.connection.select('''
+    final select = database.select('''
     SELECT * FROM $tableName;
     ''');
 

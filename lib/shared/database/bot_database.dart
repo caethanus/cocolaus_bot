@@ -5,13 +5,16 @@ import 'package:cocolaus_bot/modules/pessoa/repository/pessoa_repository.dart';
 import 'package:sqlite3/sqlite3.dart';
 
 class BotDatabase {
-  final Database connection;
+  static Database? _db;
 
-  BotDatabase() : connection = _openDatabase() {
-    migrate();
+  BotDatabase();
+
+  Database get connection {
+    _db ??= _openDatabase();
+    return _db!;
   }
 
-  static Database _openDatabase() {
+  Database _openDatabase() {
     final directory = Directory('${Directory.current.path}\\db');
 
     if (!directory.existsSync()) {
@@ -24,27 +27,32 @@ class BotDatabase {
 
     database.execute('PRAGMA foreign_keys = ON;');
 
+    _migrate(database);
+
     return database;
   }
 
-  void close() => connection.close();
+  void close() {
+    _db?.close();
+    _db = null;
+  }
 
-  void migrate() {
-    final result = connection.select('PRAGMA user_version;');
+  void _migrate(Database database) {
+    final result = database.select('PRAGMA user_version;');
 
     var currentVersion = result.first['user_version'] as int;
 
     if (currentVersion < 1) {
-      PessoaRepository().create(connection);
-      DiaCocaRepository().create(connection);
+      PessoaRepository().create(database);
+      DiaCocaRepository().create(database);
 
-      connection.execute('''
+      database.execute('''
       CREATE UNIQUE INDEX IF NOT EXISTS idx_dias_coca_data
       ON dias_coca(data)
       WHERE data IS NOT NULL;
       ''');
 
-      connection.execute('''
+      database.execute('''
       CREATE TRIGGER IF NOT EXISTS trg_dia_coca_insert
       AFTER INSERT ON dias_coca
       BEGIN
@@ -57,19 +65,19 @@ class BotDatabase {
                           (5 - CAST(strftime('%w', 'now') AS INTEGER) + 7) % 7
                       ) || ' days'
                   )
-      
+
                   UNION ALL
-      
+
                   SELECT date(data, '+7 days')
                   FROM sextas
                   WHERE data < date('now', '+365 days')
               )
-              SELECT sextas.data
+              SELECT sextas.data || 'T00:00:00.000'
               FROM sextas
               WHERE NOT EXISTS (
                   SELECT 1
                   FROM dias_coca
-                  WHERE dias_coca.data = sextas.data
+                  WHERE dias_coca.data = sextas.data || 'T00:00:00.000'
                     AND dias_coca.id_dias_coca != NEW.id_dias_coca
               )
               ORDER BY sextas.data
@@ -79,7 +87,7 @@ class BotDatabase {
       END;
       ''');
 
-      connection.execute('PRAGMA user_version = 1;');
+      database.execute('PRAGMA user_version = 1;');
       currentVersion = 1;
     }
   }

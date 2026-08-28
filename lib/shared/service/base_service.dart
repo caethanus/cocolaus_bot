@@ -3,16 +3,16 @@ import 'package:cocolaus_bot/shared/repository/base_repository_interface.dart';
 import 'package:cocolaus_bot/shared/service/base_service_interface.dart';
 
 class BaseService<E extends IBaseEntity, R extends IBaseRepository<E>> implements IBaseService<E> {
-  final R _repository;
+  final R repository;
 
-  BaseService(this._repository);
-
-  @override
-  Future<void> save(E e) async => await _repository.save(e);
+  BaseService(this.repository);
 
   @override
-  Future<void> delete(String id) async => await _repository.delete(id);
+  Future<void> save(E e) async => await repository.save(e);
 
   @override
-  Future<List<E>> get() async => await _repository.get();
+  Future<void> delete(String id) async => await repository.delete(id);
+
+  @override
+  Future<List<E>> get() async => await repository.get();
 }

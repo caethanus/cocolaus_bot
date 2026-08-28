@@ -12,11 +12,14 @@ class PessoaService extends BaseService<PessoaEntity, IPessoaRepository> impleme
   PessoaService(super.repository);
 
   @override
-  Future<void> save(PessoaEntity e) {
+  Future<void> save(PessoaEntity e) async {
     final diaCocaService = GetIt.instance<IDiaCocaService>();
 
-    diaCocaService.save(DiaCocaEntity(base: BaseEntity.novo(), idPessoaSemana: e.idDiscord, data: null, statusDiaCoca: EnumStatusDiaCoca.pendente));
+    await diaCocaService.save(DiaCocaEntity(base: BaseEntity.novo(), idPessoaSemana: e.idDiscord, data: null, statusDiaCoca: EnumStatusDiaCoca.pendente));
 
     return super.save(e);
   }
+
+  @override
+  Future<String> getNomePessoaByIdPessoa(String idPessoa) async => await repository.getNomePessoaByIdPessoa(idPessoa);
 }

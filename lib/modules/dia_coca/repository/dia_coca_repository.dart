@@ -1,6 +1,7 @@
 import 'package:cocolaus_bot/modules/dia_coca/entity/dia_coca.dart';
 import 'package:cocolaus_bot/modules/dia_coca/enums/enum_status_dia_coca.dart';
 import 'package:cocolaus_bot/modules/dia_coca/repository/dia_coca_repository_interface.dart';
+import 'package:cocolaus_bot/shared/database/bot_database.dart';
 import 'package:cocolaus_bot/shared/entity/base_entity.dart';
 import 'package:cocolaus_bot/shared/repository/base_repository.dart';
 import 'package:sqlite3/sqlite3.dart';
@@ -31,13 +32,7 @@ class DiaCocaRepository extends BaseRepository<DiaCocaEntity> implements IDiaCoc
   );
 
   @override
-  Map<String, dynamic> toMap(DiaCocaEntity entity) => {
-    idColumnName: entity.base.id,
-    BaseRepository.criadoEm: entity.base.criadoEm,
-    'id_pessoa_semana': entity.idPessoaSemana,
-    'data': entity.data,
-    'status_dia_coca': entity.statusDiaCoca.id,
-  };
+  Map<String, dynamic> toMap(DiaCocaEntity entity) => {idColumnName: entity.base.id, BaseRepository.criadoEm: entity.base.criadoEm, 'id_pessoa_semana': entity.idPessoaSemana, 'data': entity.data, 'status_dia_coca': entity.statusDiaCoca.id};
 
   @override
   DiaCocaEntity fromRow(Row row) => DiaCocaEntity(
@@ -46,4 +41,17 @@ class DiaCocaRepository extends BaseRepository<DiaCocaEntity> implements IDiaCoc
     idPessoaSemana: row['id_pessoa_semana'],
     statusDiaCoca: row['status_dia_coca'],
   );
+
+  @override
+  Future<String> getPessoaByData(String data) async {
+    final db = BotDatabase().connection;
+
+    final idPessoa = db.select('''
+    SELECT id_pessoa_semana FROM $tableName WHERE data = ?;
+    ''', [data]);
+
+    if(idPessoa.isEmpty) return '';
+
+    return idPessoa.first['id_pessoa_semana'].toString();
+  }
 }

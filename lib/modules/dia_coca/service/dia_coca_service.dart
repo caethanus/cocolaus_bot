@@ -22,4 +22,7 @@ class DiaCocaService extends BaseService<DiaCocaEntity, IDiaCocaRepository> impl
 
     await channel.sendMessage(MessageBuilder(content: 'Funalo, você trará a coca hoje!'));
   }
+
+  @override
+  Future<String> getPessoaByData(String data) async => await repository.getPessoaByData(data);
 }
