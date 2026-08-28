@@ -8,7 +8,7 @@ import 'package:get_it/get_it.dart';
 
 Future<void> main() async {
   final getIt = GetIt.instance;
-  
+
   List<BaseModule> modules = [PessoaModule(getIt), DiaCocaModule(getIt), CafeModule()];
 
   BotConfig botConfig = BotConfig(modules);
