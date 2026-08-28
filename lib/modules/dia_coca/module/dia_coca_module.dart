@@ -4,7 +4,6 @@ import 'package:cocolaus_bot/modules/dia_coca/repository/dia_coca_repository.dar
 import 'package:cocolaus_bot/modules/dia_coca/repository/dia_coca_repository_interface.dart';
 import 'package:cocolaus_bot/modules/dia_coca/service/dia_coca_service.dart';
 import 'package:cocolaus_bot/modules/dia_coca/service/dia_coca_service_interface.dart';
-import 'package:cocolaus_bot/shared/database/bot_database.dart';
 import 'package:cocolaus_bot/shared/module/base_module.dart';
 import 'package:get_it/get_it.dart';
 import 'package:nyxx_commands/nyxx_commands.dart';

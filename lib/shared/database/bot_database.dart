@@ -1,9 +1,7 @@
 import 'dart:io';
 
 import 'package:cocolaus_bot/modules/dia_coca/repository/dia_coca_repository.dart';
-import 'package:cocolaus_bot/modules/dia_coca/repository/dia_coca_repository_interface.dart';
 import 'package:cocolaus_bot/modules/pessoa/repository/pessoa_repository.dart';
-import 'package:get_it/get_it.dart';
 import 'package:sqlite3/sqlite3.dart';
 
 class BotDatabase {

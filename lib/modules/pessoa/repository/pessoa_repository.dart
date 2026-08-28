@@ -1,10 +1,8 @@
 import 'package:cocolaus_bot/modules/pessoa/entity/pessoa_entity.dart';
 import 'package:cocolaus_bot/modules/pessoa/repository/pessoa_repository_interface.dart';
-import 'package:cocolaus_bot/shared/database/bot_database.dart';
 import 'package:cocolaus_bot/shared/entity/base_entity.dart';
 import 'package:cocolaus_bot/shared/repository/base_repository.dart';
 import 'package:sqlite3/sqlite3.dart';
-import 'package:sqlite3/src/result_set.dart';
 
 class PessoaRepository extends BaseRepository<PessoaEntity> implements IPessoaRepository {
   @override

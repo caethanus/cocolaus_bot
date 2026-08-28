@@ -8,11 +8,6 @@ class CafeModule extends BaseModule implements ICafeModule {
   List<ChatCommand> get commands => [CafeCommand.coffeTime];
 
   @override
-  void createTable() {
-    // TODO: implement createTable
-  }
-
-  @override
   void registerModule() {
     // TODO: implement registerModule
   }
