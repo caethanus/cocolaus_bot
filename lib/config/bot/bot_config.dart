@@ -34,4 +34,6 @@ class BotConfig {
   Future<User> getUser() async {
     return await client.user.get();
   }
+
+  Future<NyxxGateway> getClient() async => client;
 }
