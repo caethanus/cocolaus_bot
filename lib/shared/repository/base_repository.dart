@@ -11,8 +11,6 @@ abstract class BaseRepository<E extends IBaseEntity> implements IBaseRepository<
 
   String get idColumnName => 'id_$tableName';
 
-  BotDatabase get database;
-
   Map<String, dynamic> toMap(E entity);
 
   E fromMap(Map<String, dynamic> map);
@@ -23,6 +21,8 @@ abstract class BaseRepository<E extends IBaseEntity> implements IBaseRepository<
 
   @override
   Future<void> save(E entity) async {
+    final database = BotDatabase();
+
     final values = toMap(entity);
 
     final columns = values.keys.join(', ');
@@ -36,6 +36,8 @@ abstract class BaseRepository<E extends IBaseEntity> implements IBaseRepository<
 
   @override
   Future<void> delete(String id) async {
+    final database = BotDatabase();
+
     database.connection.execute('''
     DELETE FROM $tableName WHERE id_discord = $id
     ''');
@@ -43,6 +45,8 @@ abstract class BaseRepository<E extends IBaseEntity> implements IBaseRepository<
 
   @override
   Future<List<E>> get() async {
+    final database = BotDatabase();
+
     final select = database.connection.select('''
     SELECT * FROM $tableName;
     ''');

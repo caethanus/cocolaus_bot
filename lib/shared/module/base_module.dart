@@ -5,11 +5,4 @@ import 'package:nyxx_commands/nyxx_commands.dart';
 
 abstract class BaseModule implements IBaseModule {
   List<ChatCommand> get commands;
-
-  @override
-  void registerDatabase(GetIt getIt) {
-    getIt.registerSingletonIfAbsent<BotDatabase>(() => BotDatabase());
-  }
-
-  void createTable();
 }

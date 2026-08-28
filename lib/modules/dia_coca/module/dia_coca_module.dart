@@ -19,19 +19,8 @@ class DiaCocaModule extends BaseModule implements IDiaCocaModule {
 
   @override
   void registerModule() {
-    registerDatabase(getIt);
-
-    getIt.registerLazySingleton<IDiaCocaRepository>(() => DiaCocaRepository(getIt<BotDatabase>()),);
+    getIt.registerLazySingleton<IDiaCocaRepository>(() => DiaCocaRepository(),);
 
     getIt.registerLazySingleton<IDiaCocaService>(() => DiaCocaService(getIt<IDiaCocaRepository>()),);
-
-    createTable();
-  }
-
-  @override
-  void createTable() {
-    final repository = getIt<IDiaCocaRepository>();
-
-    repository.create();
   }
 }
