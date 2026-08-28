@@ -15,7 +15,7 @@ class PessoaModule extends BaseModule implements IPessoaModule {
   PessoaModule(this.getIt);
 
   @override
-  List<ChatCommand> get commands => [PessoaCommand.registerUser];
+  List<ChatCommand> get commands => [PessoaCommand.registerUser, PessoaCommand.takeIt, PessoaCommand.unregisterUser];
 
   @override
   void registerModule() {
@@ -24,5 +24,13 @@ class PessoaModule extends BaseModule implements IPessoaModule {
     getIt.registerLazySingleton<IPessoaRepository>(() => PessoaRepository(getIt<BotDatabase>()));
 
     getIt.registerLazySingleton<IPessoaService>(() => PessoaService(getIt<IPessoaRepository>()));
+
+    createTable();
+  }
+  @override
+  void createTable() {
+    final repository = getIt<IPessoaRepository>();
+
+    repository.create();
   }
 }

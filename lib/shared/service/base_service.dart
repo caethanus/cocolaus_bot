@@ -9,4 +9,10 @@ class BaseService<E extends IBaseEntity, R extends IBaseRepository<E>> implement
 
   @override
   Future<void> save(E e) async => await _repository.save(e);
+
+  @override
+  Future<void> delete(String id) async => await _repository.delete(id);
+
+  @override
+  Future<List<E>> get() async => await _repository.get();
 }

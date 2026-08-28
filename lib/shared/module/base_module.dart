@@ -8,6 +8,8 @@ abstract class BaseModule implements IBaseModule {
 
   @override
   void registerDatabase(GetIt getIt) {
-    getIt.registerLazySingleton<BotDatabase>(() => BotDatabase());
+    getIt.registerSingletonIfAbsent<BotDatabase>(() => BotDatabase());
   }
+
+  void createTable();
 }

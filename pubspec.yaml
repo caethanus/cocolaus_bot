@@ -8,6 +8,7 @@ environment:
 
 # Add regular dependencies here.
 dependencies:
+  uuid: ^4.5.3
   nyxx: ^6.9.1
   dotenv: ^4.2.0
   nyxx_commands: ^6.1.0
