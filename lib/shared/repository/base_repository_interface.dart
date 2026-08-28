@@ -1,4 +1,5 @@
 import 'package:cocolaus_bot/shared/entity/base_entity_interface.dart';
+import 'package:sqlite3/sqlite3.dart';
 
 abstract class IBaseRepository<E extends IBaseEntity> {
   Future<void> save(E e);
@@ -7,5 +8,5 @@ abstract class IBaseRepository<E extends IBaseEntity> {
 
   Future<List<E>> get();
 
-  void create();
+  void create(Database database);
 }

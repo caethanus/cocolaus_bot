@@ -8,9 +8,9 @@ class DiaCocaEntity implements IBaseEntity {
 
   String idPessoaSemana;
 
-  DateTime data;
+  DateTime? data;
 
   EnumStatusDiaCoca statusDiaCoca;
 
-  DiaCocaEntity({required this.base, required this.idPessoaSemana, required this.data, required this.statusDiaCoca});
+  DiaCocaEntity({required this.base, required this.idPessoaSemana, this.data, required this.statusDiaCoca});
 }
