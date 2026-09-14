@@ -1,6 +1,4 @@
-import 'package:cocolaus_bot/shared/enums/enum_canais_exclusivos.dart';
 import 'package:cocolaus_bot/shared/module/base_module.dart';
-import 'package:nyxx/nyxx.dart';
 import 'package:nyxx_commands/nyxx_commands.dart';
 
 class CommandHub {

@@ -26,7 +26,7 @@ abstract class BaseRepository<E extends IBaseEntity> implements IBaseRepository<
     entity.base.criadoEm ??= DateTime.now();
 
     final values = toMap(entity);
-    
+
     final columns = values.keys.join(', ');
     final placeholders = List.filled(values.length, '?').join(', ');
 
