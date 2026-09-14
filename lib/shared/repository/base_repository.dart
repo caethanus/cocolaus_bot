@@ -23,7 +23,11 @@ abstract class BaseRepository<E extends IBaseEntity> implements IBaseRepository<
   Future<void> save(E entity) async {
     final database = BotDatabase();
 
+    entity.base.criadoEm ??= DateTime.now();
+
     final values = toMap(entity);
+
+    print(values);
 
     final columns = values.keys.join(', ');
     final placeholders = List.filled(values.length, '?').join(', ');

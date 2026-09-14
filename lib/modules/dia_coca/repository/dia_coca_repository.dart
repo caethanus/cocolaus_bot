@@ -15,7 +15,7 @@ class DiaCocaRepository extends BaseRepository<DiaCocaEntity> implements IDiaCoc
     CREATE TABLE IF NOT EXISTS $tableName (
     $idColumnName TEXT PRIMARY KEY,
     ${BaseRepository.criadoEm} TEXT,
-    id_pessoa_semana TEXT NOT NULL,
+    nome_pessoa TEXT NOT NULL,
     data TEXT,
     status_dia_coca INT NOT NULL    
     );
@@ -25,25 +25,25 @@ class DiaCocaRepository extends BaseRepository<DiaCocaEntity> implements IDiaCoc
   @override
   DiaCocaEntity fromMap(Map<String, dynamic> map) => DiaCocaEntity(
     base: baseFromMap(map),
-    idPessoaSemana: map['id_pessoa_semana'],
-    data: map['data'],
+    nomePessoa: map['nome_pessoa'],
+    data: map['data'] != null ? DateTime.parse(map['data']) : null,
     statusDiaCoca: EnumStatusDiaCoca.values.firstWhere((e) => e.id == map['status_dia_coca'], orElse: () => EnumStatusDiaCoca.pendente),
   );
 
   @override
   Map<String, dynamic> toMap(DiaCocaEntity entity) => {
     idColumnName: entity.base.id,
-    BaseRepository.criadoEm: entity.base.criadoEm,
-    'id_pessoa_semana': entity.idPessoaSemana,
+    BaseRepository.criadoEm: entity.base.criadoEm?.toIso8601String(),
+    'nome_pessoa': entity.nomePessoa,
     'data': entity.data,
     'status_dia_coca': entity.statusDiaCoca.id,
   };
 
   @override
   DiaCocaEntity fromRow(Row row) => DiaCocaEntity(
-    base: BaseEntity(id: row['id'], criadoEm: DateTime.parse(row['criado_em'])),
-    data: row['data'],
-    idPessoaSemana: row['id_pessoa_semana'],
-    statusDiaCoca: row['status_dia_coca'],
+    base: BaseEntity(id: row[idColumnName], criadoEm: row[BaseRepository.criadoEm] != null ? DateTime.parse(row[BaseRepository.criadoEm]) : null),
+    data: row['data'] != null ? DateTime.parse(row['data']) : null,
+    nomePessoa: row['nome_pessoa'],
+    statusDiaCoca: EnumStatusDiaCoca.values.firstWhere((e) => e.id == row['status_dia_coca'], orElse: () => EnumStatusDiaCoca.pendente),
   );
 }

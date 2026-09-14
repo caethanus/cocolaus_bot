@@ -15,7 +15,7 @@ class PessoaService extends BaseService<PessoaEntity, IPessoaRepository> impleme
   Future<void> save(PessoaEntity e) {
     final diaCocaService = GetIt.instance<IDiaCocaService>();
 
-    diaCocaService.save(DiaCocaEntity(base: BaseEntity.novo(), idPessoaSemana: e.idDiscord, data: null, statusDiaCoca: EnumStatusDiaCoca.pendente));
+    diaCocaService.save(DiaCocaEntity(base: BaseEntity.novo(), nomePessoa: e.nome, data: null, statusDiaCoca: EnumStatusDiaCoca.pendente));
 
     return super.save(e);
   }

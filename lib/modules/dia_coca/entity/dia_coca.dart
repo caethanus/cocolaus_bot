@@ -6,11 +6,11 @@ class DiaCocaEntity implements IBaseEntity {
   @override
   BaseEntity base;
 
-  String idPessoaSemana;
+  String nomePessoa;
 
   DateTime? data;
 
   EnumStatusDiaCoca statusDiaCoca;
 
-  DiaCocaEntity({required this.base, required this.idPessoaSemana, this.data, required this.statusDiaCoca});
+  DiaCocaEntity({required this.base, required this.nomePessoa, this.data, required this.statusDiaCoca});
 }
