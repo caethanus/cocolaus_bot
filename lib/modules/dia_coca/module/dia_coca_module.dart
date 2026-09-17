@@ -15,7 +15,7 @@ class DiaCocaModule extends BaseModule implements IDiaCocaModule {
   DiaCocaModule(this.getIt);
 
   @override
-  List<ChatCommand> get commands => [DiaCocaCommand.showCocaDay];
+  List<ChatCommand> get commands => [DiaCocaCommand.showCocaDay, DiaCocaCommand.passTurn];
 
   @override
   void registerModule() {

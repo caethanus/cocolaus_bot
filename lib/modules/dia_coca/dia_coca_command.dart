@@ -7,11 +7,20 @@ class DiaCocaCommand {
   static ChatCommand showCocaDay = ChatCommand('coca', 'mostra quem traz a coca na sexta da semana', (ChatContext context) async {
     final diaCocaService = GetIt.instance<IDiaCocaService>();
 
-    final teste = await diaCocaService.get();
+    final listaDiasCoca = await diaCocaService.get();
     String message = '';
 
-    teste.isNotEmpty ? message = '${teste.first.nomePessoa} você quem traz a coca bro, se liga!': message = 'Sem registros.';
+    listaDiasCoca.isNotEmpty ? message = '${listaDiasCoca.first.nomePessoa} você quem traz a coca bro, se liga!' : message = 'Sem registros.';
 
     await context.respond(MessageBuilder(content: message));
+  });
+
+  static ChatCommand passTurn = ChatCommand('pular', 'pula a semana para trazer a coca na outra', (ChatContext context) async {
+    final diaCocaService = GetIt.instance<IDiaCocaService>();
+
+    diaCocaService.pulaDiaCoca();
+
+    await context.respond(MessageBuilder(content: '${context.user.username} adiou a coquinha para próxima semana.'));
+
   });
 }

@@ -18,8 +18,9 @@ class DiaCocaService extends BaseService<DiaCocaEntity, IDiaCocaRepository> impl
       throw StateError('O canal $idCanalDiscord não é um canal de texto.');
     }
 
-
-
     await channel.sendMessage(MessageBuilder(content: 'Funalo, você trará a coca hoje!'));
   }
+
+  @override
+  Future<void> pulaDiaCoca() async => await repository.pulaDiaCoca();
 }
