@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cocolaus_bot/modules/pessoa/entity/pessoa_entity.dart';
 import 'package:cocolaus_bot/modules/pessoa/service/pessoa_service_interface.dart';
 import 'package:cocolaus_bot/shared/entity/base_entity.dart';
@@ -18,24 +20,29 @@ class PessoaCommand {
 
   static ChatCommand unregisterUser = ChatCommand('remover', 'Remove algum usuário da lista de coca. OBS: Será necessário cadastrar novamente', (ChatContext context, @Description('Usuário para deletar') User? discordUser) async {
     final discordId = discordUser?.id;
-    if(discordId == null) throw StateError('Erro ao deletar, confira se o usuário está cadastrado e tente novamente.');
+    if (discordId == null) throw StateError('Erro ao deletar, confira se o usuário está cadastrado e tente novamente.');
 
     final pessoaService = GetIt.instance<IPessoaService>();
 
     await pessoaService.delete(discordId.toString());
 
     await context.respond(MessageBuilder(content: 'Usuário ${discordUser?.username ?? context.user.username} removido com sucesso'));
-  },);
+  });
 
   static ChatCommand takeIt = ChatCommand('tome', 'Mostra uma mensagem especial para um determinado usuario, ou para todos.', (ChatContext context, [@Description('Quem') String? user]) async {
-    String mensagem;
+    final gifTomePath = File('assets/gifs/pois-tome.gif');
 
-    if (user != null) {
-      mensagem = '$user pois tomeeeee';
+    if (await gifTomePath.exists()) {
+      final bytes = await gifTomePath.readAsBytes();
+      final gifAnexo = AttachmentBuilder(data: bytes, fileName: 'pois-tome.gif');
+
+      await context.respond(
+        MessageBuilder(content: 'POIS TOMEE', attachments: [gifAnexo]),
+        level: ResponseLevel.public,
+      );
     } else {
-      mensagem = 'pois tomeeeee';
+      print('Erro ao carregar o gif: Arquivo ausente.');
+      await context.respond(MessageBuilder(content: 'Não consegui encontrar o gif no meu sistema. 😢'), level: ResponseLevel.public);
     }
-
-    await context.respond(MessageBuilder(content: mensagem));
   });
 }

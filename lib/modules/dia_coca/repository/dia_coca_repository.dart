@@ -1,6 +1,7 @@
 import 'package:cocolaus_bot/modules/dia_coca/entity/dia_coca.dart';
 import 'package:cocolaus_bot/modules/dia_coca/enums/enum_status_dia_coca.dart';
 import 'package:cocolaus_bot/modules/dia_coca/repository/dia_coca_repository_interface.dart';
+import 'package:cocolaus_bot/shared/database/bot_database.dart';
 import 'package:cocolaus_bot/shared/entity/base_entity.dart';
 import 'package:cocolaus_bot/shared/repository/base_repository.dart';
 import 'package:sqlite3/sqlite3.dart';
@@ -31,13 +32,7 @@ class DiaCocaRepository extends BaseRepository<DiaCocaEntity> implements IDiaCoc
   );
 
   @override
-  Map<String, dynamic> toMap(DiaCocaEntity entity) => {
-    idColumnName: entity.base.id,
-    BaseRepository.criadoEm: entity.base.criadoEm?.toIso8601String(),
-    'nome_pessoa': entity.nomePessoa,
-    'data': entity.data,
-    'status_dia_coca': entity.statusDiaCoca.id,
-  };
+  Map<String, dynamic> toMap(DiaCocaEntity entity) => {idColumnName: entity.base.id, BaseRepository.criadoEm: entity.base.criadoEm?.toIso8601String(), 'nome_pessoa': entity.nomePessoa, 'data': entity.data?.toIso8601String(), 'status_dia_coca': entity.statusDiaCoca.id};
 
   @override
   DiaCocaEntity fromRow(Row row) => DiaCocaEntity(
@@ -46,4 +41,19 @@ class DiaCocaRepository extends BaseRepository<DiaCocaEntity> implements IDiaCoc
     nomePessoa: row['nome_pessoa'],
     statusDiaCoca: EnumStatusDiaCoca.values.firstWhere((e) => e.id == row['status_dia_coca'], orElse: () => EnumStatusDiaCoca.pendente),
   );
+
+  @override
+  Future<void> pulaDiaCoca() async {
+    database.execute('''
+    UPDATE $tableName
+    SET data = date(data, '+1000 years')
+    WHERE date(data) >= date('now');
+  ''');
+
+    database.execute('''
+    UPDATE $tableName
+    SET data = date(data, '-1000 years', '+7 days')
+    WHERE date(data) >= date('now', '+1000 years');
+  ''');
+  }
 }
